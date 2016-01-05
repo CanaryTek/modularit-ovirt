@@ -1,7 +1,6 @@
 #
-# Author:: Kuko Armas
 # Cookbook Name:: modularit-ovirt
-# Attribute:: default
+# Recipe:: guest
 #
 # Copyright 2013, CanaryTek
 #
@@ -18,14 +17,14 @@
 # limitations under the License.
 #
 
-# oVirt release package
-default['ovirt']['release_package'] = "ovirt-release36"
-default['ovirt']['release_file'] = "ovirt-release36.rpm"
-default['ovirt']['download_url'] = "http://resources.ovirt.org/pub/yum-repo/#{node['ovirt']['release_file']}"
+# Include default
+include_recipe "modularit-ovirt::default"
 
-# Packages for node
-default['ovirt']['node']['packages'] = %w[ovirt-hosted-engine-setup screen glusterfs-server nfs-utils vdsm-gluster system-storage-manager xauth]
+# guest packages
+package node['ovirt']['guest']['packages'] do
+  action :install
+end
 
-# Packages for guest
-default['ovirt']['guest']['packages'] = %w[ovirt-guest-agent]
-
+service "ovirt-guest-agent" do
+  action [ :enable, :start ]
+end
