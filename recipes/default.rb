@@ -17,17 +17,3 @@
 # limitations under the License.
 #
 
-# Download oVirt release RPM
-remote_file "#{Chef::Config[:file_cache_path]}/#{node['ovirt']['release_file']}" do
-  file="#{node['ovirt']['download_url']}"
-  Chef::Log.info("Downloading #{file}")
-  source file
-  action :create_if_missing
-end
-
-# oVirt Release package
-rpm_package node['ovirt']['release_package'] do
-  source "#{Chef::Config[:file_cache_path]}/#{node['ovirt']['release_file']}"
-  action :install
-end
-

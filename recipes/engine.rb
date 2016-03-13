@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: modularit-ovirt
-# Recipe:: guest
+# Recipe:: engine
 #
-# Copyright 2013, CanaryTek
+# Copyright 2016, CanaryTek
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,11 +17,5 @@
 # limitations under the License.
 #
 
-# guest packages
-package node['ovirt']['guest']['packages'] do
-  action :install
-end
-
-service "ovirt-guest-agent" do
-  action [ :enable, :start ]
-end
+include_recipe "modularit-ovirt::guest"
+include_recipe "modularit-ovirt::spice-proxy"

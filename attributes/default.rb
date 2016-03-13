@@ -27,5 +27,16 @@ default['ovirt']['download_url'] = "http://resources.ovirt.org/pub/yum-repo/#{no
 default['ovirt']['node']['packages'] = %w[ovirt-hosted-engine-setup screen glusterfs-server nfs-utils vdsm-gluster system-storage-manager xauth]
 
 # Packages for guest
-default['ovirt']['guest']['packages'] = %w[ovirt-guest-agent]
+case node[:platform_family]
+  when "debian"
+    default['ovirt']['guest']['packages'] = %w[ovirt-guest-agent]
+  when "suse"
+    default['ovirt']['guest']['packages'] = %w[ovirt-guest-agent]
+  when "rhel","fedora"
+    if node['platform_version'].to_i == 5
+      default['ovirt']['guest']['packages'] = %w[ovirt-guest-agent python-ctypes]
+    else
+      default['ovirt']['guest']['packages'] = %w[ovirt-guest-agent]
+    end
+end
 
