@@ -40,3 +40,6 @@ case node[:platform_family]
     end
 end
 
+# Allowed destination nets and domains for spice-proxy
+default['ovirt']['spice-proxy']['spice_net'] = "192.168.1.0/24"
+default['ovirt']['spice-proxy']['spice_domain'] = ".lan"

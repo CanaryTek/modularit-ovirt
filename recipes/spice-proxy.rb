@@ -24,6 +24,7 @@ end
 
 template "/etc/squid/squid.conf" do
   source "squid.conf.erb"
+  notifies :reload, 'service[squid]'
 end
 
 service "squid" do

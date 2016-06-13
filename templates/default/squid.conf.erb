@@ -1,0 +1,31 @@
+#
+# Squid as a oVirt spice proxy
+#
+
+# IP of nodes
+acl spice_net dst <%= node['ovirt']['spice-proxy']['spice_net'] %>
+acl spice_domain dstdomain <%= node['ovirt']['spice-proxy']['spice_domain'] %>
+
+# Spice ports
+acl Spice_ports port 5900-6923
+
+acl CONNECT method CONNECT
+
+# Deny CONNECT to other than secure SSL ports
+http_access deny CONNECT !Spice_ports
+http_access deny !CONNECT
+
+# Allow only access to accepted hosts, deny rest
+http_access allow spice_net
+http_access allow spice_domain
+http_access deny all
+
+# Squid normally listens to port 3128
+http_port 3128
+
+# Timeout for idle connections
+read_timeout 150 hours
+
+# Leave coredumps in the first cache dir
+coredump_dir /var/spool/squid
+

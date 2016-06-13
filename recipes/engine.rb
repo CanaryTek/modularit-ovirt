@@ -19,3 +19,4 @@
 
 include_recipe "modularit-ovirt::guest"
 include_recipe "modularit-ovirt::spice-proxy"
+include_recipe "modularit-ovirt::backup"
