@@ -20,3 +20,15 @@
 include_recipe "modularit-ovirt::guest"
 include_recipe "modularit-ovirt::spice-proxy"
 include_recipe "modularit-ovirt::backup"
+
+rasca_object "SecPkgChk-ovirt-chef" do
+	check "SecPkgChk"
+	format "ruby"
+	content '{
+		"ovirt-web" => { :package => "ovirt", :ports => [ "TCP/6100" ] },
+		"ovirt-fen" => { :package => "ovirt", :ports => [ "UDP/7410" ] },
+		"sshd" => { :package => "openssh-server", :ports => [ "TCP/22", "TCP/2222" ] },
+		"postgres" => { :package => "postgresql-server", :ports => [ "TCP/5432" ] },
+		"httpd" => { :package => "httpd", :ports => [ "TCP/80", "TCP/443" ] }
+	}'
+end
